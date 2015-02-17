@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="myApp">
+<head lang="ja">
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <script src="https://code.angularjs.org/1.2.22/angular.js"></script>
+  <script src="https://rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.10.0.js"></script>
+
+  <script>
+    var myApp = angular.module("myApp", []);
+    myApp.controller("mainController", ["$scope", function($scope) {
+      $scope.someMethod = function() {}
+    }]);
+    //angular.module("ui.bootstrap.demo", ["ui.bootstrap"]);
+    //angular.module("ui.bootstrap.demo", []).requires.push("ui.bootstrap");
+
+    function clickBtn1() {
+      angular.module("uiModule", ["ui.bootstrap"]);
+      angular.injector(["ng", "uiModule"])
+        .invoke(["$rootScope", "$compile", function($scope, $compile) {
+          $compile(angular.element(document.body)[0].children[1])($scope);
+        }]);
+    }
+
+    function clickBtn2() {
+      angular.module("uiModule", ["ui.bootstrap"])
+        .run(["$rootScope", "$compile", function($scope, $compile) {
+          $compile(angular.element(document.body)[0].children[1])($scope);
+        }]);
+      angular.injector(["ng", "uiModule"]);
+    }
+  </script>
+</head>
+<body ng-controller="mainController">
+  <div>
+    初期div要素
+  </div>
+
+  <tabset>
+    <tab heading="Justified">Justified content</tab>
+    <tab heading="SJ">Short Labeled Justified content</tab>
+    <tab heading="Long Justified">Long Labeled Justified content</tab>
+  </tabset>
+
+  <button onclick="clickBtn1()">
+    Click1!
+  </button>
+  <button onclick="clickBtn2()">
+    Click2!
+  </button>
+</body>
+</html>
